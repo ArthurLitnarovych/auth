@@ -14,22 +14,22 @@ export const signin = async (req, res) => {
   try {
     const oldUser = await userModel.findOne({ email });
     if (!oldUser) {
-      res.status(404).json({ message: "User doesn`t exist" });
+      return res.status(404).json({ message: "User doesn`t exist" });
     }
 
     const isPasswordCorrect = await bcrypt.compare(password, oldUser.password);
 
     if (!isPasswordCorrect) {
-      res.status(400).json({ message: "Invalid password" });
+      return res.status(400).json({ message: "Invalid password" });
     }
 
     const token = jwt.sign({ email: oldUser.email, id: oldUser._id }, secret, {
       expiresIn: "2h",
     });
 
-    res.status(200).json({ result: oldUser, token });
+    return res.status(200).json({ result: oldUser, token });
   } catch (error) {
-    res.status(500).json({ message: `${error} - no response` });
+    return res.status(500).json({ message: "An error occurred" });
   }
 };
 
@@ -39,7 +39,7 @@ export const signup = async (req, res) => {
     const oldUser = await userModel.findOne({ email });
 
     if (oldUser) {
-      res.status(400).json({ message: "User already exists" });
+      return res.status(400).json({ message: "User already exists" });
     }
 
     const hashedPassword = await bcrypt.hash(password, 12);
@@ -53,8 +53,8 @@ export const signup = async (req, res) => {
     const token = jwt.sign({ email: result.email, id: result._id }, secret, {
       expiresIn: "2h",
     });
-    res.status(201).json({ result, token });
+    return res.status(201).json({ result, token });
   } catch (error) {
-    res.status(500).json({ message: `${error} - no response` });
+    return res.status(500).json({ message: "An error occurred" });
   }
 };
