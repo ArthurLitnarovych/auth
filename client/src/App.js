@@ -11,6 +11,9 @@ import Header from "./components/header/Header";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { setUser } from "./redux/slices/authSlice";
+import SingleTour from "./pages/SingleTour";
+import Dashboard from "./pages/Dashboard";
+import PrivateRoute from "./components/PrivateRoute";
 
 
 gapi.load("client:auth2", () => {
@@ -36,9 +39,11 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/addTour" element={<AddEditTour />} />
-          <Route path="/editTour/:id" element={<AddEditTour />} />
+          <Route path="/addTour" element={<PrivateRoute><AddEditTour /></PrivateRoute>} />
+          <Route path="/editTour/:id" element={<PrivateRoute><AddEditTour /></PrivateRoute>}/>
           <Route path="/profile/:id" element={<Profile />} />
+          <Route path="/tour/:id" element={<SingleTour />} />
+          <Route path="/dashboard" element={<PrivateRoute><Dashboard /></PrivateRoute>}/>
         </Routes>
       </div>
     </BrowserRouter>

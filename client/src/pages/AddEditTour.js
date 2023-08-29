@@ -118,7 +118,7 @@ const AddEditTour = () => {
                 onDone={(base64) =>
                   setTourData({
                     ...tourData,
-                    imageFile: JSON.stringify(base64),
+                    imageFile: base64.base64,
                   })
                 }
               />
