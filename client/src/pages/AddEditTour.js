@@ -10,10 +10,10 @@ import {
 import ChipInput from "material-ui-chip-input";
 import FileBase from "react-file-base64";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Divider } from "@material-ui/core";
 import { useDispatch, useSelector } from "react-redux";
-import { createTour } from "../redux/slices/tourSlice";
+import { createTour, updateTour } from "../redux/slices/tourSlice";
 
 const initialState = {
   title: "",
@@ -24,10 +24,18 @@ const initialState = {
 const AddEditTour = () => {
   const [tourData, setTourData] = useState(initialState);
   const { title, description, tags } = tourData;
-  const { error, loading } = useSelector((state) => state.tour);
+  const { error, loading, userTours } = useSelector((state) => state.tour);
   const { user } = useSelector((state) => state.auth);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { id } = useParams();
+
+  useEffect(() => {
+    if (id) {
+      const singleTour = userTours.find((tour) => tour._id === id);
+      setTourData({ ...singleTour });
+    }
+  }, [id])
 
   useEffect(() => {
     error && toast.error(error);
@@ -53,7 +61,11 @@ const AddEditTour = () => {
     e.preventDefault();
     if (title && description && tags) {
       const updatedTourData = { ...tourData, name: user?.result?.name };
-      dispatch(createTour({ updatedTourData, navigate, toast }));
+      if (!id) {
+        dispatch(createTour({ updatedTourData, navigate, toast }));
+      } else {
+        dispatch(updateTour({ updatedTourData, id, toast, navigate }));
+      }
       handleClear();
     }
   };
@@ -70,7 +82,7 @@ const AddEditTour = () => {
       className="container"
     >
       <MDBCard alignment="center" className="pt-2">
-        <h5>Add Tour</h5>
+        <h5>Add Bank</h5>
         <MDBCardBody>
           <MDBValidation onSubmit={handleSubmit} className="row g-3" noValidate>
             <div className="col-md-12">
@@ -104,7 +116,7 @@ const AddEditTour = () => {
               <ChipInput
                 name="tags"
                 variant="outlined"
-                placeholder="Tag"
+                placeholder="Countries"
                 fullWidth
                 value={tags}
                 onAdd={(tag) => handleAddTag(tag)}

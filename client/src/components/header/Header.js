@@ -30,7 +30,7 @@ const Header = () => {
         <MDBNavbarBrand
           style={{ color: "#606080", fontWeight: "600", fontsize: "22px" }}
         >
-          Touropedia
+          Banks
         </MDBNavbarBrand>
         <MDBNavbarToggler
           type="button"
@@ -52,7 +52,7 @@ const Header = () => {
               <>
                 <MDBNavbarItem>
                   <MDBNavbarLink href="/addTour">
-                    <p className="header-text">Add tour</p>
+                    <p className="header-text">Add bank</p>
                   </MDBNavbarLink>
                 </MDBNavbarItem>
                 <MDBNavbarItem>

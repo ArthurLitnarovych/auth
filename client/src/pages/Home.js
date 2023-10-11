@@ -29,7 +29,7 @@ const Home = () => {
         {tours.length === 0 && (
           <MDBTypography className="text-center mb-0" tag="h2">
             {" "}
-            No tours found!
+            No Banks found!
           </MDBTypography>
         )}
         <MDBCol>
